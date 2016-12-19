@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+	<script src="js/student.js"></script>
+    <script src="js/subject.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Mínimo Ionic</h1>
+      </ion-header-bar>
+      <ion-content>
+<div class="container" ng-controller="StudentController">
+
+    <div class="jumbotron text-center" ng-prueba>
+        <h1>Nº de Estudiantes: <span class="label label-success">{{ students.length }}</span></h1>
+    </div>
+
+    <div class="row">
+        
+            <table class="table table-striped">
+                <tr class="info">
+                    <td>Nombre</td>
+                    <td>Direccion</td>
+                    <td>Fijo</td>
+                    <td>Movil</td>
+                </tr>
+                <tr ng-repeat="student in students" ng-click="selectStudent(student)">
+                    <td>{{ student.nombre }}</td>
+                    <td>{{ student.direccion }}</td>
+                    <td>{{ student.telefono.fijo }}</td>
+                    <td>{{ student.telefono.movil }}</td>
+                </tr>
+            </table>
+    </div>  
+        <div class="col-sm-4 col-sm-offset-1 text-center">
+            <form name="myForm">
+                <div class="form-group">
+                    <input type="text" class="form-control input-lg text-center" placeholder="Nombre" ng-model="newStudent.nombre" required>
+                    <br>
+                    <input type="text" class="form-control input-lg text-center" placeholder="Direccion" ng-model="newStudent.direccion" required>
+                    <br>
+                    <input type="text" class="form-control input-lg text-center" placeholder="Fijo" ng-model="newStudent.telefono.fijo" required>
+                    <br>
+                    <input type="text" class="form-control input-lg text-center" placeholder="Mobil" ng-model="newStudent.telefono.movil" required>
+               
+                <!-- Acciones que podemos realizar en el formulario -->
+                <button type="submit" class="btn btn-success btn-lg" ng-click="registrarStudent()" ng-disabled="myForm.$invalid">Registrar</button>
+                <button type="submit" class="btn btn-warning btn-lg" ng-click="modificarStudent(newStudent)" ng-disabled="!newStudent.nombre || !newStudent.direccion || !newStudent.telefono.fijo || !newStudent.telefono.movil || !selected">Modificar</button>
+                <button type="submit" class="btn btn-danger btn-lg" ng-click="borrarStudent(newStudent)" ng-disabled="!newStudent.nombre || !newStudent.direccion || !newStudent.telefono.fijo || !newStudent.telefono.movil || !selected">Borrar</button>
+                </div>
+			</form>
+			<div class="col-sm-4 col-sm-offset-1 text-center">
+        <label>Filtrar por alumno:</label> <input type="text" class="form-control input-lg text-center" placeholder="Alumno" ng-model="newStudent.nombre" required>
+        <button type="submit" class="btn btn-success btn-lg" ng-click="filterAlumn()">Filtrar</button>
+		<br></br>
+</div>
+        </div>
+    </div>
+	 
+<div class="container" ng-controller="SubjectController">
+
+    <div class="jumbotron text-center" >
+        <h1>Nº de Asignaturas: <span class="label label-success">{{ subjects.length }}</span></h1>
+    </div>
+    <button type="submit" class="btn btn-success btn-lg" ng-click="GetAll()">Ver todas</button>
+    <div class="row">
+
+            <table class="table table-striped">
+                <tr class="info">
+                    <td>Nombre</td>
+                    <td>Alumno</td>
+					<td>Periodo</td>
+                </tr>
+                <tr ng-repeat="subject in subjects" ng-click="selectSubject(subject)">
+                    <td>{{ subject.nombre }}</td>
+                    <td>{{ subject.alumno }}</td>
+					<td>{{ subject.when }}</td>
+                </tr>
+            </table>
+			</div>
+        
+        <div class="col-sm-4 col-sm-offset-1 text-center">
+        <label>Filtrar por asignatura:</label> <input type="text" class="form-control input-lg text-center" placeholder="Asignatura" ng-model="newSubject.nombre">
+        <button type="submit" class="btn btn-success btn-lg" ng-click="filterSubject2()">Filtrar</button>
+		<br></br>
+		<label>Filtrar por alumno:</label> <input type="text" class="form-control input-lg text-center" placeholder="Alumno" ng-model="newSubject.alumno">
+        <button type="submit" class="btn btn-success btn-lg" ng-click="filterSubject()">Filtrar</button>
+            <form name="miForm">
+                <div class="form-group">
+                    <input type="text" class="form-control input-lg text-center" placeholder="Asignatura" ng-model="newSubject.nombre" required>
+                    <br>
+                    <input type="text" class="form-control input-lg text-center" placeholder="Alumno" ng-model="newSubject.alumno" required>
+                </div>
+
+                <!-- Acciones que podemos realizar en el formulario -->
+                <button type="submit" class="btn btn-success btn-lg" ng-click="registrarSubject()" ng-disabled="miForm.$invalid">Registrar</button>
+                <button type="submit" class="btn btn-warning btn-lg" ng-click="modificarSubject(newSubject)" ng-disabled="!newSubject.nombre || !newSubject.alumno || !selected">Modificar</button>
+                <button type="submit" class="btn btn-danger btn-lg" ng-click="borrarSubject(newSubject)" ng-disabled="!newSubject.nombre || !newSubject.alumno || !selected">Borrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
