@@ -22,7 +22,7 @@ app.controller('StudentController', ['$scope','$http', function($scope, $http) {
             $http.post('http://'+ dir +':3000/api/student', $scope.newStudent)
                 .success(function (data) {
                     if(data==false) {
-                        alert("Fijo y móbil deben ser números");
+                        alert("Error al añadir alumno");
                     }
                     else {
                         $scope.cleanall(); // Borramos los datos del formulario
